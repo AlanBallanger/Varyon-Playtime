@@ -1,0 +1,23 @@
+Group {
+  LayoutMode: Left;
+  Anchor: (Height: 26);
+  Padding: (Bottom: 4);
+
+  Label #Rank {
+    Anchor: (Width: 36);
+    Text: "";
+    Style: (FontSize: 14, TextColor: #FFAA00, RenderBold: true, VerticalAlignment: Center);
+  }
+
+  Label #Name {
+    FlexWeight: 1;
+    Text: "";
+    Style: (FontSize: 14, TextColor: #F3F5F6, VerticalAlignment: Center);
+  }
+
+  Label #Time {
+    Anchor: (Width: 96);
+    Text: "";
+    Style: (FontSize: 14, TextColor: #AAAAAA, VerticalAlignment: Center);
+  }
+}

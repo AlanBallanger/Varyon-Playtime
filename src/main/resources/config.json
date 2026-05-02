@@ -1,0 +1,57 @@
+{
+  "database": {
+    "type": "sqlite",
+    "host": "localhost",
+    "port": 3306,
+    "databaseName": "playtime_db",
+    "username": "root",
+    "password": "password",
+    "useSSL": false
+  },
+  "command": {
+    "name": "playtime",
+    "description": "Check your playtime stats",
+    "aliases": ["pt", "play", "time"],
+    "topStyle": "text"
+  },
+  "periods": {
+    "daily": "daily",
+    "weekly": "weekly",
+    "monthly": "monthly",
+    "all": "all",
+    "reload": "reload"
+  },
+  "messages": {
+    "selfCheck": "&dTotal Playtime: &e%time%",
+    "otherCheck": "&d%player%'s Playtime: &e%time%",
+    "leaderboardHeader": "&6--- Playtime Leaderboard (&e%period_name%&6) ---",
+    "leaderboardEntry": "&6#%rank% &e%player% &7: &f%time%",
+    "leaderboardEmpty": "&7No data available yet.",
+    "reloadSuccess": "&aConfiguration reloaded successfully!",
+    "reloadNoPermission": "&cYou do not have permission to reload.",
+    "reloadFailed": "&cFailed to reload config. Check console.",
+    "errorInvalidPeriod": "&cInvalid period. Use: %valid_periods%",
+    "errorConsole": "&cPlayers only.",
+    "noPermission": "&cYou do not have permission to use this command.",
+    "rewardAdded": "&aReward '%id%' added successfully!",
+    "rewardRemoved": "&aReward '%id%' removed successfully!",
+    "rewardNotFound": "&cReward '%id%' not found.",
+    "rewardBroadcast": "&6%player% &ehas played for &6%time% &eand claimed the &6%reward% &ereward!",
+    "rewardListHeader": "&6--- Server Rewards ---",
+    "rewardListEntry": "&e%id% &7(%period%): &f%status%",
+    "statusClaimed": "&a[CLAIMED]",
+    "statusAvailable": "&e[AVAILABLE]",
+    "statusLocked": "&c[LOCKED]"
+  },
+  "gui": {
+    "title": "LEADERBOARD",
+    "buttonAll": "ALL TIME",
+    "buttonDaily": "DAILY",
+    "buttonWeekly": "WEEKLY",
+    "buttonMonthly": "MONTHLY",
+    "footerTitle": "YOUR STATS:",
+    "rankPrefix": "Rank: #",
+    "timePrefix": "Time: "
+  },
+  "rewards": []
+}

@@ -1,0 +1,95 @@
+Group {
+  LayoutMode: Top;
+  Padding: (All: 16);
+
+  Label #TitleText {
+    Text: "LEADERBOARD";
+    Anchor: (Height: 28);
+    Style: (FontSize: 18, TextColor: #F3F5F6, RenderBold: true, VerticalAlignment: Center);
+  }
+
+  Group { Anchor: (Height: 8); }
+
+  Group #PeriodRow {
+    LayoutMode: Left;
+    Anchor: (Height: 36);
+
+    Button #BtnAll {
+      Text: "ALL TIME";
+      Anchor: (Width: 100, Height: 32);
+      Style: ButtonStyle(
+        Default: (Background: (Color: #2a3545)),
+        Hovered: (Background: (Color: #4a6ea8)),
+        Pressed: (Background: (Color: #203040))
+      );
+    }
+
+    Group { Anchor: (Width: 6); }
+
+    Button #BtnDaily {
+      Text: "DAILY";
+      Anchor: (Width: 88, Height: 32);
+      Style: ButtonStyle(
+        Default: (Background: (Color: #2a3545)),
+        Hovered: (Background: (Color: #4a6ea8)),
+        Pressed: (Background: (Color: #203040))
+      );
+    }
+
+    Group { Anchor: (Width: 6); }
+
+    Button #BtnWeekly {
+      Text: "WEEKLY";
+      Anchor: (Width: 96, Height: 32);
+      Style: ButtonStyle(
+        Default: (Background: (Color: #2a3545)),
+        Hovered: (Background: (Color: #4a6ea8)),
+        Pressed: (Background: (Color: #203040))
+      );
+    }
+
+    Group { Anchor: (Width: 6); }
+
+    Button #BtnMonthly {
+      Text: "MONTHLY";
+      Anchor: (Width: 104, Height: 32);
+      Style: ButtonStyle(
+        Default: (Background: (Color: #2a3545)),
+        Hovered: (Background: (Color: #4a6ea8)),
+        Pressed: (Background: (Color: #203040))
+      );
+    }
+  }
+
+  Group { Anchor: (Height: 12); }
+
+  Group #ListContainer {
+    FlexWeight: 1;
+    LayoutMode: Top;
+  }
+
+  Group { Anchor: (Height: 12); }
+
+  Label #FooterLabel {
+    Text: "YOUR STATS:";
+    Anchor: (Height: 20);
+    Style: (FontSize: 14, TextColor: #9E9585, VerticalAlignment: Center);
+  }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Height: 22);
+
+    Label #SelfRank {
+      Text: "";
+      Style: (FontSize: 14, TextColor: #F3F5F6, VerticalAlignment: Center);
+    }
+
+    Group { Anchor: (Width: 16); }
+
+    Label #SelfTime {
+      Text: "";
+      Style: (FontSize: 14, TextColor: #F3F5F6, VerticalAlignment: Center);
+    }
+  }
+}
