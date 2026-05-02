@@ -41,14 +41,14 @@ public class ConfigManager {
         try (InputStream in = Playtime.class.getResourceAsStream("/config.json")) {
             if (in != null) {
                 Files.copy(in, configFile.toPath());
-                logger.info("Copied default config.json from JAR.");
+                logger.info("Modèle config.json copié depuis le JAR.");
             } else {
                 config = new PlaytimeConfig();
                 save();
-                logger.warn("Could not find config.json in JAR, created blank default.");
+                logger.warn("config.json absent du JAR, configuration par défaut créée.");
             }
         } catch (IOException e) {
-            logger.error("Failed to create config.json", e);
+            logger.error("Impossible de créer config.json", e);
         }
     }
 
@@ -60,9 +60,9 @@ public class ConfigManager {
             }
             config.setDefaults();
             save();
-            logger.info("Configuration loaded!");
+            logger.info("Configuration chargée.");
         } catch (IOException e) {
-            logger.error("Failed to load config.json", e);
+            logger.error("Impossible de lire config.json", e);
             config = new PlaytimeConfig();
             config.setDefaults();
             save();
@@ -73,7 +73,7 @@ public class ConfigManager {
         try (Writer writer = new FileWriter(configFile)) {
             gson.toJson(config, writer);
         } catch (IOException e) {
-            logger.error("Failed to save config.json", e);
+            logger.error("Impossible d’enregistrer config.json", e);
         }
     }
 

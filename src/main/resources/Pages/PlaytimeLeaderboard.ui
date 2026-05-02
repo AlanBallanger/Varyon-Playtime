@@ -3,7 +3,7 @@ Group {
   Padding: (All: 16);
 
   Label #TitleText {
-    Text: "LEADERBOARD";
+    Text: "TEMPS DE JEU";
     Anchor: (Height: 28);
     Style: (FontSize: 18, TextColor: #F3F5F6, RenderBold: true, VerticalAlignment: Center);
   }
@@ -15,7 +15,7 @@ Group {
     Anchor: (Height: 36);
 
     Button #BtnAll {
-      Text: "ALL TIME";
+      Text: "TOTAL";
       Anchor: (Width: 100, Height: 32);
       Style: ButtonStyle(
         Default: (Background: (Color: #2a3545)),
@@ -27,7 +27,7 @@ Group {
     Group { Anchor: (Width: 6); }
 
     Button #BtnDaily {
-      Text: "DAILY";
+      Text: "JOUR";
       Anchor: (Width: 88, Height: 32);
       Style: ButtonStyle(
         Default: (Background: (Color: #2a3545)),
@@ -39,7 +39,7 @@ Group {
     Group { Anchor: (Width: 6); }
 
     Button #BtnWeekly {
-      Text: "WEEKLY";
+      Text: "SEMAINE";
       Anchor: (Width: 96, Height: 32);
       Style: ButtonStyle(
         Default: (Background: (Color: #2a3545)),
@@ -51,7 +51,7 @@ Group {
     Group { Anchor: (Width: 6); }
 
     Button #BtnMonthly {
-      Text: "MONTHLY";
+      Text: "MOIS";
       Anchor: (Width: 104, Height: 32);
       Style: ButtonStyle(
         Default: (Background: (Color: #2a3545)),
@@ -71,7 +71,7 @@ Group {
   Group { Anchor: (Height: 12); }
 
   Label #FooterLabel {
-    Text: "YOUR STATS:";
+    Text: "VOS STATS :";
     Anchor: (Height: 20);
     Style: (FontSize: 14, TextColor: #9E9585, VerticalAlignment: Center);
   }

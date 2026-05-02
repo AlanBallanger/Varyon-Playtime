@@ -64,14 +64,14 @@ public class Playtime extends JavaPlugin {
                     try {
                         rewardManager.checkRewards();
                     } catch (Exception e) {
-                        logger.error("Error in reward checker task", e);
+                        logger.error("Erreur dans la tâche de récompenses", e);
                     }
                 },
                 1L,
                 1L,
                 TimeUnit.MINUTES);
 
-        logger.info("Playtime loaded successfully. Main command: /" + cmdName);
+        logger.info("Playtime chargé. Commande principale : /" + cmdName);
     }
 
     @Override

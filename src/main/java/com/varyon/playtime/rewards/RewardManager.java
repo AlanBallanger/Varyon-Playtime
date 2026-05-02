@@ -53,7 +53,7 @@ public class RewardManager {
         db.logRewardClaim(player.getUuid().toString(), reward.id);
 
         final String username = player.getUsername();
-        logger.info("Granting reward [" + reward.id + "] to " + username);
+        logger.info("Attribution de la récompense [" + reward.id + "] à " + username);
 
         World world = Universe.get().getWorld(player.getWorldUuid());
         if (world == null) {
@@ -104,15 +104,15 @@ public class RewardManager {
                             }
 
                             try {
-                                logger.info("[RewardDebug] Executing: " + parsedCmd);
+                                logger.info("[Récompense] Exécution : " + parsedCmd);
                                 cm.handleCommand(consoleSender, parsedCmd);
                             } catch (Exception e) {
-                                logger.error("Failed to execute command: " + parsedCmd, e);
+                                logger.error("Échec de la commande : " + parsedCmd, e);
                             }
                         }
                     });
         } else {
-            logger.error("Could not find a valid world to execute reward commands for " + username);
+            logger.error("Aucun monde valide pour exécuter les commandes de récompense pour " + username);
         }
 
         if (reward.broadcastMessage != null && !reward.broadcastMessage.isEmpty()) {

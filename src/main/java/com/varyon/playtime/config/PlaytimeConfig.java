@@ -41,6 +41,31 @@ public class PlaytimeConfig {
         }
     }
 
+    public String resolvePeriodKey(String input) {
+        if (input == null) {
+            return null;
+        }
+        setDefaults();
+        String t = input.trim();
+        if (t.isEmpty()) {
+            return null;
+        }
+        PeriodSettings p = periods;
+        if (t.equalsIgnoreCase("daily") || (p.daily != null && t.equalsIgnoreCase(p.daily))) {
+            return "daily";
+        }
+        if (t.equalsIgnoreCase("weekly") || (p.weekly != null && t.equalsIgnoreCase(p.weekly))) {
+            return "weekly";
+        }
+        if (t.equalsIgnoreCase("monthly") || (p.monthly != null && t.equalsIgnoreCase(p.monthly))) {
+            return "monthly";
+        }
+        if (t.equalsIgnoreCase("all") || (p.all != null && t.equalsIgnoreCase(p.all))) {
+            return "all";
+        }
+        return null;
+    }
+
     public static class DatabaseSettings {
         public String type = "sqlite";
         public String host = "localhost";
@@ -53,50 +78,50 @@ public class PlaytimeConfig {
 
     public static class CommandSettings {
         public String name = "playtime";
-        public String description = "Check your playtime stats";
+        public String description = "Afficher votre temps de jeu et les classements";
         public List<String> aliases = Arrays.asList("pt", "play", "time");
         public String topStyle = "text";
     }
 
     public static class PeriodSettings {
-        public String daily = "daily";
-        public String weekly = "weekly";
-        public String monthly = "monthly";
-        public String all = "all";
-        public String reload = "reload";
+        public String daily = "jour";
+        public String weekly = "semaine";
+        public String monthly = "mois";
+        public String all = "total";
+        public String reload = "recharger";
     }
 
     public static class MessageSettings {
-        public String selfCheck = "&dTotal Playtime: &e%time%";
-        public String otherCheck = "&d%player%'s Playtime: &e%time%";
-        public String leaderboardHeader = "&6--- Playtime Leaderboard (&e%period_name%&6) ---";
+        public String selfCheck = "&dTemps de jeu total : &e%time%";
+        public String otherCheck = "&dTemps de jeu de &f%player%&d : &e%time%";
+        public String leaderboardHeader = "&6--- Classement temps de jeu (&e%period_name%&6) ---";
         public String leaderboardEntry = "&6#%rank% &e%player% &7: &f%time%";
-        public String leaderboardEmpty = "&7No data available yet.";
-        public String reloadSuccess = "&aConfiguration reloaded successfully!";
-        public String reloadNoPermission = "&cYou do not have permission to reload.";
-        public String reloadFailed = "&cFailed to reload config. Check console.";
-        public String errorInvalidPeriod = "&cInvalid period. Use: %valid_periods%";
-        public String errorConsole = "&cPlayers only.";
-        public String noPermission = "&cYou do not have permission to use this command.";
-        public String rewardAdded = "&aReward '%id%' added successfully!";
-        public String rewardRemoved = "&aReward '%id%' removed successfully!";
-        public String rewardNotFound = "&cReward '%id%' not found.";
-        public String rewardBroadcast = "&6%player% &ehas played for &6%time% &eand claimed the &6%reward% &ereward!";
-        public String rewardListHeader = "&6--- Server Rewards ---";
-        public String rewardListEntry = "&e%id% &7(%period%): &f%status%";
-        public String statusClaimed = "&a[CLAIMED]";
-        public String statusAvailable = "&e[AVAILABLE]";
-        public String statusLocked = "&c[LOCKED]";
+        public String leaderboardEmpty = "&7Aucune donnée pour l’instant.";
+        public String reloadSuccess = "&aConfiguration rechargée.";
+        public String reloadNoPermission = "&cVous n’avez pas la permission de recharger.";
+        public String reloadFailed = "&cÉchec du rechargement. Voir la console.";
+        public String errorInvalidPeriod = "&cPériode invalide. Utilisez : %valid_periods%";
+        public String errorConsole = "&cRéservé aux joueurs.";
+        public String noPermission = "&cVous n’avez pas la permission.";
+        public String rewardAdded = "&aRécompense « %id% » ajoutée.";
+        public String rewardRemoved = "&aRécompense « %id% » supprimée.";
+        public String rewardNotFound = "&cRécompense « %id% » introuvable.";
+        public String rewardBroadcast = "&6%player% &ea joué &6%time% &eet a reçu la récompense &6%reward%&e !";
+        public String rewardListHeader = "&6--- Récompenses du serveur ---";
+        public String rewardListEntry = "&e%id% &7(%period%) : &f%status%";
+        public String statusClaimed = "&a[REÇUE]";
+        public String statusAvailable = "&e[DISPONIBLE]";
+        public String statusLocked = "&c[VERROUILLÉE]";
     }
 
     public static class GuiSettings {
-        public String title = "LEADERBOARD";
-        public String buttonAll = "ALL TIME";
-        public String buttonDaily = "DAILY";
-        public String buttonWeekly = "WEEKLY";
-        public String buttonMonthly = "MONTHLY";
-        public String footerTitle = "YOUR STATS:";
-        public String rankPrefix = "Rank: #";
-        public String timePrefix = "Time: ";
+        public String title = "CLASSEMENT";
+        public String buttonAll = "TOTAL";
+        public String buttonDaily = "JOUR";
+        public String buttonWeekly = "SEMAINE";
+        public String buttonMonthly = "MOIS";
+        public String footerTitle = "VOS STATS :";
+        public String rankPrefix = "Rang : n°";
+        public String timePrefix = "Temps : ";
     }
 }

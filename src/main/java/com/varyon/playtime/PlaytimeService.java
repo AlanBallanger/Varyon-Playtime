@@ -42,7 +42,7 @@ public class PlaytimeService {
     }
 
     public long getPlaytime(String uuid, String type) {
-        String dateFilter = getDateFilter(type);
+        String dateFilter = getDateFilter(canonicalPeriod(type));
         String query = "SELECT SUM(duration) FROM playtime_sessions WHERE uuid = ? " + dateFilter;
 
         long dbTime = 0;
@@ -85,7 +85,7 @@ public class PlaytimeService {
     public Map<String, Long> getTopPlayers(String type, int limit) {
         Map<String, Long> tempMap = new HashMap<>();
 
-        String dateFilter = getDateFilter(type);
+        String dateFilter = getDateFilter(canonicalPeriod(type));
         String where = dateFilter.isEmpty() ? "" : "WHERE " + dateFilter.substring(4) + " ";
 
         String query =
@@ -139,5 +139,14 @@ public class PlaytimeService {
             }
         }
         return "";
+    }
+
+    private String canonicalPeriod(String type) {
+        try {
+            String k = Playtime.get().getConfigManager().getConfig().resolvePeriodKey(type);
+            return k != null ? k : "all";
+        } catch (Exception e) {
+            return "all";
+        }
     }
 }

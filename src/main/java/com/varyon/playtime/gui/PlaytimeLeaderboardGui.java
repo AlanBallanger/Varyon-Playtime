@@ -90,7 +90,7 @@ public class PlaytimeLeaderboardGui extends InteractiveCustomUIPage<PlaytimeLead
         long myTime = Playtime.get().getService().getPlaytime(playerRef.getUuid().toString(), currentPeriod);
         int myRank = Playtime.get().getService().getRank(playerRef.getUuid().toString(), currentPeriod);
 
-        cmd.set("#SelfRank.Text", myRank > 0 ? gui.rankPrefix + myRank : gui.rankPrefix + "N/A");
+        cmd.set("#SelfRank.Text", myRank > 0 ? gui.rankPrefix + myRank : gui.rankPrefix + "n.d.");
         cmd.set("#SelfTime.Text", gui.timePrefix + format(myTime));
     }
 

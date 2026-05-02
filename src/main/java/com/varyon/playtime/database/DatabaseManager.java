@@ -41,7 +41,7 @@ public class DatabaseManager {
             config.setPassword(settings.password);
             config.setDriverClassName("com.mysql.cj.jdbc.Driver");
             isMySQL = true;
-            logger.info("Connecting to MySQL Database...");
+            logger.info("Connexion à la base MySQL…");
         } else {
             if (!dataFolder.exists()) {
                 dataFolder.mkdirs();
@@ -49,7 +49,7 @@ public class DatabaseManager {
             config.setJdbcUrl("jdbc:sqlite:" + new File(dataFolder, "playtime.db").getAbsolutePath());
             config.setDriverClassName("org.sqlite.JDBC");
             isMySQL = false;
-            logger.info("Using local SQLite Database.");
+            logger.info("Base SQLite locale.");
         }
 
         config.setMaximumPoolSize(10);
@@ -97,10 +97,10 @@ public class DatabaseManager {
         try (Connection conn = dataSource.getConnection(); Statement stmt = conn.createStatement()) {
             stmt.execute(sessionsSql);
             stmt.execute(rewardsSql);
-            logger.info("Successfully created/verified database tables.");
+            logger.info("Tables de base vérifiées.");
         } catch (SQLException e) {
-            logger.error("Failed to create table: " + e.getMessage(), e);
-            throw new RuntimeException("Failed to create database table", e);
+            logger.error("Création des tables impossible : " + e.getMessage(), e);
+            throw new RuntimeException("Impossible de créer les tables", e);
         }
     }
 
@@ -115,22 +115,27 @@ public class DatabaseManager {
     }
 
     public boolean hasClaimedReward(String uuid, Reward reward) {
+        String internal = Playtime.get().getConfigManager().getConfig().resolvePeriodKey(reward.period);
+        if (internal == null) {
+            internal = reward.period;
+        }
+
         String timeClause = "";
 
         if (isMySQL) {
-            if (reward.period.equalsIgnoreCase("daily")) {
+            if ("daily".equalsIgnoreCase(internal)) {
                 timeClause = " AND DATE(claim_date) = CURDATE()";
-            } else if (reward.period.equalsIgnoreCase("weekly")) {
+            } else if ("weekly".equalsIgnoreCase(internal)) {
                 timeClause = " AND claim_date >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
-            } else if (reward.period.equalsIgnoreCase("monthly")) {
+            } else if ("monthly".equalsIgnoreCase(internal)) {
                 timeClause = " AND claim_date >= DATE_SUB(NOW(), INTERVAL 1 MONTH)";
             }
         } else {
-            if (reward.period.equalsIgnoreCase("daily")) {
+            if ("daily".equalsIgnoreCase(internal)) {
                 timeClause = " AND date(claim_date) = date('now')";
-            } else if (reward.period.equalsIgnoreCase("weekly")) {
+            } else if ("weekly".equalsIgnoreCase(internal)) {
                 timeClause = " AND date(claim_date) >= date('now', '-7 days')";
-            } else if (reward.period.equalsIgnoreCase("monthly")) {
+            } else if ("monthly".equalsIgnoreCase(internal)) {
                 timeClause = " AND date(claim_date) >= date('now', '-1 month')";
             }
         }
@@ -144,7 +149,7 @@ public class DatabaseManager {
                 return rs.next();
             }
         } catch (SQLException e) {
-            logger.error("Error checking reward claim", e);
+            logger.error("Erreur lors de la vérification d’une récompense", e);
             return true;
         }
     }
@@ -156,7 +161,7 @@ public class DatabaseManager {
             ps.setString(2, rewardId);
             ps.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Error logging reward claim", e);
+            logger.error("Erreur en enregistrant une récompense", e);
         }
     }
 }
