@@ -13,6 +13,7 @@ import com.varyon.playtime.listeners.SessionListener;
 import com.varyon.playtime.milestones.MilestoneManager;
 import com.varyon.playtime.rewards.RewardManager;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.slf4j.Logger;
@@ -40,7 +41,8 @@ public class Playtime extends JavaPlugin {
 
     @Override
     protected void setup() {
-        File dataFolder = new File("mods/Varyon-Playtime");
+        Path dataPath = getDataDirectory().getParent().resolve("Varyon_VaryonPlaytime").normalize();
+        File dataFolder = dataPath.toFile();
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
         }

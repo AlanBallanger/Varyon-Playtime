@@ -62,10 +62,10 @@
     "tierBronzeMax": "10h",
     "tierSilverMax": "50h",
     "tierGoldMax": "100h",
-    "broadcastBronze":  "&8[&6✦ Bronze&8] &f%player% &7vient d'atteindre &e%time% &7de jeu !",
-    "broadcastSilver":  "&8[&7✦✦ Argent&8] &f%player% &7vient d'atteindre &f%time% &7de jeu !",
-    "broadcastGold":    "&6✦✦✦ &f%player% &6a atteint &e%time% &6de jeu ! &6✦✦✦",
-    "broadcastDiamond": "&b◆◆◆ &f%player% &ba atteint &3%time% &bde jeu ! &b◆◆◆"
+    "broadcastBronze":  "&8[&6Bronze&8] &f%player% &7vient d'atteindre &e%time% &7de jeu !",
+    "broadcastSilver":  "&8[&7Argent&8] &f%player% &7vient d'atteindre &f%time% &7de jeu !",
+    "broadcastGold":    "&8[&eOr&8] &f%player% &6a atteint &e%time% &6de jeu !",
+    "broadcastDiamond": "&8[&bDiamant&8] &f%player% &ba atteint &3%time% &bde jeu !"
   },
   "milestones": [
     { "time": "1h"   },

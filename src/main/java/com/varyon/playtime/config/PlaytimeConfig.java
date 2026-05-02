@@ -220,9 +220,9 @@ public class PlaytimeConfig {
         public String tierBronzeMax = "10h";
         public String tierSilverMax = "50h";
         public String tierGoldMax = "100h";
-        public String broadcastBronze = "&8[&6✦ Bronze&8] &f%player% &7vient d'atteindre &e%time% &7de jeu !";
-        public String broadcastSilver = "&8[&7✦✦ Argent&8] &f%player% &7vient d'atteindre &f%time% &7de jeu !";
-        public String broadcastGold   = "&6✦✦✦ &f%player% &6a atteint &e%time% &6de jeu ! &6✦✦✦";
-        public String broadcastDiamond = "&b◆◆◆ &f%player% &ba atteint &3%time% &bde jeu ! &b◆◆◆";
+        public String broadcastBronze  = "&8[&6Bronze&8] &f%player% &7vient d'atteindre &e%time% &7de jeu !";
+        public String broadcastSilver  = "&8[&7Argent&8] &f%player% &7vient d'atteindre &f%time% &7de jeu !";
+        public String broadcastGold    = "&8[&eOr&8] &f%player% &6a atteint &e%time% &6de jeu !";
+        public String broadcastDiamond = "&8[&bDiamant&8] &f%player% &ba atteint &3%time% &bde jeu !";
     }
 }

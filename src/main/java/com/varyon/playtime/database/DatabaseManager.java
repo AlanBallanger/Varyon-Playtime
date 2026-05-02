@@ -166,10 +166,17 @@ public class DatabaseManager {
     }
 
     public void resetSessions(String uuid) {
-        String sql = "DELETE FROM playtime_sessions WHERE uuid = ?";
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, uuid);
-            ps.executeUpdate();
+        String sqlSessions = "DELETE FROM playtime_sessions WHERE uuid = ?";
+        String sqlMilestones = "DELETE FROM playtime_rewards_log WHERE uuid = ? AND reward_id LIKE 'milestone_%'";
+        try (Connection conn = getConnection()) {
+            try (PreparedStatement ps = conn.prepareStatement(sqlSessions)) {
+                ps.setString(1, uuid);
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = conn.prepareStatement(sqlMilestones)) {
+                ps.setString(1, uuid);
+                ps.executeUpdate();
+            }
         } catch (SQLException e) {
             logger.error("Erreur lors du reset des sessions", e);
         }
