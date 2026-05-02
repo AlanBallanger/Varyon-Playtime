@@ -39,6 +39,85 @@ public class PlaytimeConfig {
         if (command.aliases == null) {
             command.aliases = Arrays.asList("pt", "play", "time");
         }
+        if (gui != null) {
+            if (gui.footerRankCaption == null) {
+                gui.footerRankCaption = "Rang :";
+            }
+            if (gui.footerTimeCaption == null) {
+                gui.footerTimeCaption = "Temps : ";
+            }
+        }
+        heuristicallyUseFrenchCopy();
+    }
+
+    private void heuristicallyUseFrenchCopy() {
+        if (looksLikeLegacyEnglishMessages(messages)) {
+            messages = new MessageSettings();
+        }
+        if (looksLikeEnglishPeriodLabels(periods)) {
+            periods = new PeriodSettings();
+        }
+        if (command != null && looksLikeEnglishCommandDescription(command)) {
+            command.description = new CommandSettings().description;
+        }
+    }
+
+    private static boolean looksLikeEnglishCommandDescription(CommandSettings c) {
+        if (c == null || c.description == null) {
+            return false;
+        }
+        String d = c.description.toLowerCase();
+        return d.contains("check your playtime") || d.contains("playtime stats");
+    }
+
+    private static boolean looksLikeLegacyEnglishMessages(MessageSettings m) {
+        if (m == null) {
+            return false;
+        }
+        if (m.leaderboardHeader != null && m.leaderboardHeader.contains("Playtime Leaderboard")) {
+            return true;
+        }
+        if (m.selfCheck != null && m.selfCheck.contains("Total Playtime")) {
+            return true;
+        }
+        if (m.rewardListHeader != null && m.rewardListHeader.contains("Server Rewards")) {
+            return true;
+        }
+        if (m.leaderboardEmpty != null && m.leaderboardEmpty.contains("No data")) {
+            return true;
+        }
+        if (m.noPermission != null && m.noPermission.contains("You do not have permission")) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean looksLikeEnglishPeriodLabels(PeriodSettings p) {
+        if (p == null) {
+            return false;
+        }
+        return p.daily != null
+                && p.daily.equalsIgnoreCase("daily")
+                && p.weekly != null
+                && p.weekly.equalsIgnoreCase("weekly")
+                && p.monthly != null
+                && p.monthly.equalsIgnoreCase("monthly")
+                && p.all != null
+                && p.all.equalsIgnoreCase("all");
+    }
+
+    public String displayPeriod(String internalKey) {
+        if (internalKey == null) {
+            return "";
+        }
+        PeriodSettings p = periods != null ? periods : new PeriodSettings();
+        return switch (internalKey) {
+            case "daily" -> p.daily != null ? p.daily : "jour";
+            case "weekly" -> p.weekly != null ? p.weekly : "semaine";
+            case "monthly" -> p.monthly != null ? p.monthly : "mois";
+            case "all" -> p.all != null ? p.all : "total";
+            default -> internalKey;
+        };
     }
 
     public String resolvePeriodKey(String input) {
@@ -117,11 +196,14 @@ public class PlaytimeConfig {
     public static class GuiSettings {
         public String title = "CLASSEMENT";
         public String buttonAll = "TOTAL";
-        public String buttonDaily = "JOUR";
-        public String buttonWeekly = "SEMAINE";
-        public String buttonMonthly = "MOIS";
-        public String footerTitle = "VOS STATS :";
+        public String buttonDaily = "QUOTIDIEN";
+        public String buttonWeekly = "HEBDO";
+        public String buttonMonthly = "MENSUEL";
+        public String footerTitle = "VOS STATISTIQUES :";
+        public String footerRankCaption = "Rang :";
+        public String footerTimeCaption = "Temps : ";
         public String rankPrefix = "Rang : n°";
         public String timePrefix = "Temps : ";
+        public String rankIfNone = "—";
     }
 }

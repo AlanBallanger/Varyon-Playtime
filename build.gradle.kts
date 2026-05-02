@@ -48,6 +48,10 @@ tasks.named<ProcessResources>("processResources") {
     )
     filesMatching("manifest.json") { expand(replaceProperties) }
     inputs.properties(replaceProperties)
+
+    from("src/main/resources/Pages") {
+        into("Common/UI/Custom/Pages")
+    }
 }
 
 val fatJar = tasks.register<Jar>("fatJar") {
@@ -109,6 +113,7 @@ val syncAssets = tasks.register<Copy>("syncAssets") {
     from(layout.buildDirectory.dir("resources/main"))
     into("src/main/resources")
     exclude("manifest.json")
+    exclude("Common/**")
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 

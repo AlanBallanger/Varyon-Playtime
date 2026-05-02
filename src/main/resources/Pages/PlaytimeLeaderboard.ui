@@ -1,95 +1,162 @@
-Group {
-  LayoutMode: Top;
-  Padding: (All: 16);
+$C = "../Common.ui";
 
-  Label #TitleText {
-    Text: "TEMPS DE JEU";
-    Anchor: (Height: 28);
-    Style: (FontSize: 18, TextColor: #F3F5F6, RenderBold: true, VerticalAlignment: Center);
-  }
+$C.@PageOverlay {
+  LayoutMode: Middle;
 
-  Group { Anchor: (Height: 8); }
+  $C.@DecoratedContainer {
+    Anchor: (Width: 500, Height: 600);
 
-  Group #PeriodRow {
-    LayoutMode: Left;
-    Anchor: (Height: 36);
-
-    Button #BtnAll {
-      Text: "TOTAL";
-      Anchor: (Width: 100, Height: 32);
-      Style: ButtonStyle(
-        Default: (Background: (Color: #2a3545)),
-        Hovered: (Background: (Color: #4a6ea8)),
-        Pressed: (Background: (Color: #203040))
-      );
+    #Title {
+      Label #TitleText {
+        Text: "CLASSEMENT";
+        Style: (
+          ...$C.@TitleStyle,
+          HorizontalAlignment: Center,
+        );
+        Padding: (Horizontal: 19);
+      }
     }
 
-    Group { Anchor: (Width: 6); }
+    #Content {
+      LayoutMode: Top;
+      Padding: (Horizontal: 10, Top: 8, Bottom: 10);
 
-    Button #BtnDaily {
-      Text: "JOUR";
-      Anchor: (Width: 88, Height: 32);
-      Style: ButtonStyle(
-        Default: (Background: (Color: #2a3545)),
-        Hovered: (Background: (Color: #4a6ea8)),
-        Pressed: (Background: (Color: #203040))
-      );
-    }
+      Group #PeriodRow {
+        LayoutMode: Left;
+        Anchor: (Height: 44);
+        Padding: (Bottom: 6);
 
-    Group { Anchor: (Width: 6); }
+        TextButton #BtnAll {
+          Anchor: (Width: 96, Height: 36);
+          Text: "TOTAL";
+          Style: $C.@SmallSecondaryTextButtonStyle;
+        }
 
-    Button #BtnWeekly {
-      Text: "SEMAINE";
-      Anchor: (Width: 96, Height: 32);
-      Style: ButtonStyle(
-        Default: (Background: (Color: #2a3545)),
-        Hovered: (Background: (Color: #4a6ea8)),
-        Pressed: (Background: (Color: #203040))
-      );
-    }
+        Group { Anchor: (Width: 8); }
 
-    Group { Anchor: (Width: 6); }
+        TextButton #BtnDaily {
+          Anchor: (Width: 120, Height: 36);
+          Text: "QUOTIDIEN";
+          Style: $C.@SmallSecondaryTextButtonStyle;
+        }
 
-    Button #BtnMonthly {
-      Text: "MOIS";
-      Anchor: (Width: 104, Height: 32);
-      Style: ButtonStyle(
-        Default: (Background: (Color: #2a3545)),
-        Hovered: (Background: (Color: #4a6ea8)),
-        Pressed: (Background: (Color: #203040))
-      );
-    }
-  }
+        Group { Anchor: (Width: 8); }
 
-  Group { Anchor: (Height: 12); }
+        TextButton #BtnWeekly {
+          Anchor: (Width: 100, Height: 36);
+          Text: "HEBDO";
+          Style: $C.@SmallSecondaryTextButtonStyle;
+        }
 
-  Group #ListContainer {
-    FlexWeight: 1;
-    LayoutMode: Top;
-  }
+        Group { Anchor: (Width: 8); }
 
-  Group { Anchor: (Height: 12); }
+        TextButton #BtnMonthly {
+          Anchor: (Width: 108, Height: 36);
+          Text: "MENSUEL";
+          Style: $C.@SmallSecondaryTextButtonStyle;
+        }
+      }
 
-  Label #FooterLabel {
-    Text: "VOS STATS :";
-    Anchor: (Height: 20);
-    Style: (FontSize: 14, TextColor: #9E9585, VerticalAlignment: Center);
-  }
+      Group #ListScroll {
+        Anchor: (Height: 340);
+        LayoutMode: TopScrolling;
+        ScrollbarStyle: $C.@DefaultScrollbarStyle;
+        Padding: (Top: 4, Right: 4, Bottom: 4);
 
-  Group {
-    LayoutMode: Left;
-    Anchor: (Height: 22);
+        Group #ListContainer {
+          LayoutMode: Top;
+        }
+      }
 
-    Label #SelfRank {
-      Text: "";
-      Style: (FontSize: 14, TextColor: #F3F5F6, VerticalAlignment: Center);
-    }
+      Group #FooterWrap {
+        LayoutMode: Top;
+        Anchor: (Height: 102);
+        Padding: (Top: 8, Left: 2, Right: 2, Bottom: 2);
+        Background: #1a2535;
 
-    Group { Anchor: (Width: 16); }
+        Label #FooterLabel {
+          Text: "VOS STATISTIQUES :";
+          Anchor: (Height: 22);
+          Style: (
+            ...$C.@DefaultLabelStyle,
+            RenderBold: true,
+            TextColor: #ffffff,
+          );
+        }
 
-    Label #SelfTime {
-      Text: "";
-      Style: (FontSize: 14, TextColor: #F3F5F6, VerticalAlignment: Center);
+        Group { Anchor: (Height: 8); }
+
+        Group {
+          LayoutMode: Left;
+          Anchor: (Height: 28);
+
+          Group {
+            LayoutMode: Left;
+            Anchor: (Height: 28);
+
+            Group {
+              LayoutMode: Middle;
+              Anchor: (Height: 28);
+              Label #SelfRankKey {
+                Text: "Rang :";
+                Style: (
+                  FontSize: 14,
+                  TextColor: #ffffff,
+                  VerticalAlignment: Center,
+                );
+              }
+            }
+
+            Group {
+              LayoutMode: Middle;
+              Anchor: (Height: 28);
+              Label #SelfRankValue {
+                Text: "";
+                Style: (
+                  FontSize: 14,
+                  TextColor: #E8A93B,
+                  RenderBold: true,
+                  VerticalAlignment: Center,
+                );
+              }
+            }
+          }
+
+          Group { Anchor: (Width: 20); }
+
+          Group {
+            LayoutMode: Left;
+            Anchor: (Height: 28);
+
+            Group {
+              LayoutMode: Middle;
+              Anchor: (Height: 28);
+              Label #SelfTimeKey {
+                Text: "Temps : ";
+                Style: (
+                  FontSize: 14,
+                  TextColor: #ffffff,
+                  VerticalAlignment: Center,
+                );
+              }
+            }
+
+            Group {
+              LayoutMode: Middle;
+              Anchor: (Height: 28);
+              Label #SelfTimeValue {
+                Text: "";
+                Style: (
+                  FontSize: 15,
+                  TextColor: #E8A93B,
+                  RenderBold: true,
+                  VerticalAlignment: Center,
+                );
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

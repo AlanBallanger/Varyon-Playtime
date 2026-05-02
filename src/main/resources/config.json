@@ -46,12 +46,15 @@
   "gui": {
     "title": "CLASSEMENT",
     "buttonAll": "TOTAL",
-    "buttonDaily": "JOUR",
-    "buttonWeekly": "SEMAINE",
-    "buttonMonthly": "MOIS",
-    "footerTitle": "VOS STATS :",
+    "buttonDaily": "QUOTIDIEN",
+    "buttonWeekly": "HEBDO",
+    "buttonMonthly": "MENSUEL",
+    "footerTitle": "VOS STATISTIQUES :",
+    "footerRankCaption": "Rang :",
+    "footerTimeCaption": "Temps : ",
     "rankPrefix": "Rang : n°",
-    "timePrefix": "Temps : "
+    "timePrefix": "Temps : ",
+    "rankIfNone": "—"
   },
   "rewards": []
 }

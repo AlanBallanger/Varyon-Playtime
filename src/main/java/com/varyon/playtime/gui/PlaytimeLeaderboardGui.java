@@ -8,6 +8,7 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
+import com.hypixel.hytale.server.core.ui.Value;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
@@ -45,6 +46,8 @@ public class PlaytimeLeaderboardGui extends InteractiveCustomUIPage<PlaytimeLead
         cmd.set("#BtnWeekly.Text", gui.buttonWeekly);
         cmd.set("#BtnMonthly.Text", gui.buttonMonthly);
         cmd.set("#FooterLabel.Text", gui.footerTitle);
+        cmd.set("#SelfRankKey.Text", gui.footerRankCaption);
+        cmd.set("#SelfTimeKey.Text", gui.footerTimeCaption);
 
         bindButton(events, "#BtnAll", "all");
         bindButton(events, "#BtnDaily", "daily");
@@ -90,8 +93,33 @@ public class PlaytimeLeaderboardGui extends InteractiveCustomUIPage<PlaytimeLead
         long myTime = Playtime.get().getService().getPlaytime(playerRef.getUuid().toString(), currentPeriod);
         int myRank = Playtime.get().getService().getRank(playerRef.getUuid().toString(), currentPeriod);
 
-        cmd.set("#SelfRank.Text", myRank > 0 ? gui.rankPrefix + myRank : gui.rankPrefix + "n.d.");
-        cmd.set("#SelfTime.Text", gui.timePrefix + format(myTime));
+        cmd.set("#SelfRankValue.Text", myRank > 0 ? "#" + myRank : gui.rankIfNone);
+        cmd.set("#SelfTimeValue.Text", format(myTime));
+
+        applyPeriodTabStyles(cmd);
+    }
+
+    private void applyPeriodTabStyles(UICommandBuilder cmd) {
+        cmd.set(
+                "#BtnAll.Style",
+                Value.ref(
+                        "Common.ui",
+                        currentPeriod.equals("all") ? "SmallTertiaryTextButtonStyle" : "SmallSecondaryTextButtonStyle"));
+        cmd.set(
+                "#BtnDaily.Style",
+                Value.ref(
+                        "Common.ui",
+                        currentPeriod.equals("daily") ? "SmallTertiaryTextButtonStyle" : "SmallSecondaryTextButtonStyle"));
+        cmd.set(
+                "#BtnWeekly.Style",
+                Value.ref(
+                        "Common.ui",
+                        currentPeriod.equals("weekly") ? "SmallTertiaryTextButtonStyle" : "SmallSecondaryTextButtonStyle"));
+        cmd.set(
+                "#BtnMonthly.Style",
+                Value.ref(
+                        "Common.ui",
+                        currentPeriod.equals("monthly") ? "SmallTertiaryTextButtonStyle" : "SmallSecondaryTextButtonStyle"));
     }
 
     private void bindButton(UIEventBuilder events, String id, String action) {
@@ -107,7 +135,7 @@ public class PlaytimeLeaderboardGui extends InteractiveCustomUIPage<PlaytimeLead
             this.currentPeriod = data.action;
             UICommandBuilder cmd = new UICommandBuilder();
             refreshLeaderboard(cmd);
-            sendUpdate(cmd);
+            sendUpdate(cmd, new UIEventBuilder(), false);
         }
     }
 

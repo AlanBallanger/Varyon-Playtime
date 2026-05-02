@@ -141,7 +141,7 @@ public class PlaytimeCommand extends AbstractPlayerCommand {
         }
 
         Map<String, Long> sorted = Playtime.get().getService().getTopPlayers(mode);
-        ctx.sendMessage(color(cfg.messages.leaderboardHeader.replace("%period_name%", periodArg)));
+        ctx.sendMessage(color(cfg.messages.leaderboardHeader.replace("%period_name%", cfg.displayPeriod(mode))));
 
         if (sorted.isEmpty()) {
             ctx.sendMessage(color(cfg.messages.leaderboardEmpty));
@@ -205,7 +205,7 @@ public class PlaytimeCommand extends AbstractPlayerCommand {
                 }
                 return;
             }
-            if (arg.equalsIgnoreCase(periods.reload)) {
+            if (arg.equalsIgnoreCase(periods.reload) || arg.equalsIgnoreCase("reload")) {
                 if (!ctx.sender().hasPermission("playtime.reload")) {
                     ctx.sendMessage(color(config.messages.reloadNoPermission));
                     return;
@@ -246,15 +246,16 @@ public class PlaytimeCommand extends AbstractPlayerCommand {
             String cmd = config.command.name;
             ctx.sendMessage(color("&6--- Aide temps de jeu ---"));
             ctx.sendMessage(color("&e/" + cmd + " &7- Afficher votre temps de jeu"));
-            ctx.sendMessage(color("&e/" + cmd + " recompenses &7- Liste des récompenses"));
-            ctx.sendMessage(color("&e/" + cmd + " classement [periode] &7- Classement"));
+            ctx.sendMessage(color("&e/" + cmd + " recompenses &7- &8|&7 /" + cmd + " rewards — Liste des récompenses"));
+            ctx.sendMessage(color("&e/" + cmd + " classement &7- &8|&7 /" + cmd + " top — Classement (période « total »)"));
+            ctx.sendMessage(color("&e/" + cmd + " classement [periode] &7- Classement (jour, semaine, mois, total)"));
             if (ctx.sender().hasPermission("playtime.admin")) {
                 ctx.sendMessage(color("&c--- Admin ---"));
                 ctx.sendMessage(color("&c/" + cmd + " admin &7- Guide des récompenses"));
                 ctx.sendMessage(color("&c/" + cmd + " admin listeRecompenses &7- Récompenses configurées"));
                 ctx.sendMessage(color("&c/" + cmd + " admin ajouterRecompense &7- Ajouter une récompense"));
                 ctx.sendMessage(color("&c/" + cmd + " admin supprimerRecompense <id> &7- Retirer une récompense"));
-                ctx.sendMessage(color("&c/" + cmd + " " + config.periods.reload + " &7- Recharger la config"));
+                ctx.sendMessage(color("&c/" + cmd + " " + config.periods.reload + " &7- &f| reload &7- Recharger la config"));
             }
         }
 
@@ -292,7 +293,7 @@ public class PlaytimeCommand extends AbstractPlayerCommand {
 
                 String line = cfg.messages.rewardListEntry
                         .replace("%id%", r.id)
-                        .replace("%period%", r.period)
+                        .replace("%period%", cfg.displayPeriod(r.period))
                         .replace("%status%", status + " &7(" + format(r.timeRequirement) + ")");
                 ctx.sendMessage(color(line));
             }
@@ -306,7 +307,7 @@ public class PlaytimeCommand extends AbstractPlayerCommand {
         DoubleArgCommand(String name) {
             super(name);
             this.arg1 = withRequiredArg("arg1", "Premier argument", ArgTypes.STRING);
-            this.arg2 = withRequiredArg("arg2", "Second argument", ArgTypes.STRING);
+            this.arg2 = withRequiredArg("arg2", "Deuxième argument", ArgTypes.STRING);
         }
 
         @Override
@@ -335,7 +336,7 @@ public class PlaytimeCommand extends AbstractPlayerCommand {
                 PlaytimeConfig cfg = Playtime.get().getConfigManager().getConfig();
                 for (Reward r : cfg.rewards) {
                     ctx.sendMessage(color("&eID : &f" + r.id));
-                    ctx.sendMessage(color("  &7Période : " + r.period));
+                    ctx.sendMessage(color("  &7Période : " + cfg.displayPeriod(r.period)));
                     ctx.sendMessage(color("  &7Temps : " + format(r.timeRequirement)));
                     ctx.sendMessage(color(
                             "  &7Commande : " + (r.commands.isEmpty() ? "Aucune" : r.commands.get(0))));
