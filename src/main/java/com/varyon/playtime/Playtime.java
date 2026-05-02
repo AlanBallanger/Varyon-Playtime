@@ -10,6 +10,7 @@ import com.varyon.playtime.config.ConfigManager;
 import com.varyon.playtime.config.PlaytimeConfig;
 import com.varyon.playtime.database.DatabaseManager;
 import com.varyon.playtime.listeners.SessionListener;
+import com.varyon.playtime.milestones.MilestoneManager;
 import com.varyon.playtime.rewards.RewardManager;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +27,7 @@ public class Playtime extends JavaPlugin {
     private DatabaseManager db;
     private PlaytimeService service;
     private RewardManager rewardManager;
+    private MilestoneManager milestoneManager;
 
     public Playtime(@NonNullDecl JavaPluginInit init) {
         super(init);
@@ -51,6 +53,7 @@ public class Playtime extends JavaPlugin {
         db.init();
         service = new PlaytimeService(db);
         rewardManager = new RewardManager(db);
+        milestoneManager = new MilestoneManager(db);
 
         String cmdName = cfg.command.name;
         String[] aliases = cfg.command.aliases.toArray(new String[0]);
@@ -63,8 +66,9 @@ public class Playtime extends JavaPlugin {
                 () -> {
                     try {
                         rewardManager.checkRewards();
+                        milestoneManager.checkMilestones();
                     } catch (Exception e) {
-                        logger.error("Erreur dans la tâche de récompenses", e);
+                        logger.error("Erreur dans la tâche de récompenses/milestones", e);
                     }
                 },
                 1L,
@@ -92,5 +96,13 @@ public class Playtime extends JavaPlugin {
 
     public RewardManager getRewardManager() {
         return rewardManager;
+    }
+
+    public MilestoneManager getMilestoneManager() {
+        return milestoneManager;
+    }
+
+    public DatabaseManager getDatabaseManager() {
+        return db;
     }
 }

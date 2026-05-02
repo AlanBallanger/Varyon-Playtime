@@ -164,4 +164,47 @@ public class DatabaseManager {
             logger.error("Erreur en enregistrant une récompense", e);
         }
     }
+
+    public void resetSessions(String uuid) {
+        String sql = "DELETE FROM playtime_sessions WHERE uuid = ?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, uuid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Erreur lors du reset des sessions", e);
+        }
+    }
+
+    public String getUuidByUsername(String username) {
+        String sql = "SELECT uuid FROM playtime_sessions WHERE username = ? LIMIT 1";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("uuid");
+                }
+            }
+        } catch (SQLException e) {
+            logger.error("Erreur lors de la recherche UUID par username", e);
+        }
+        return null;
+    }
+
+    public boolean hasMilestoneTriggered(String uuid, String milestoneId) {
+        String query = "SELECT id FROM playtime_rewards_log WHERE uuid = ? AND reward_id = ?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, uuid);
+            ps.setString(2, milestoneId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            logger.error("Erreur lors de la vérification d'un milestone", e);
+            return true;
+        }
+    }
+
+    public void logMilestone(String uuid, String milestoneId) {
+        logRewardClaim(uuid, milestoneId);
+    }
 }

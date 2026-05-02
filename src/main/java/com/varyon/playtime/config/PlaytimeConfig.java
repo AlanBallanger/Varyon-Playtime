@@ -12,6 +12,8 @@ public class PlaytimeConfig {
     public MessageSettings messages = new MessageSettings();
     public GuiSettings gui = new GuiSettings();
     public List<Reward> rewards = new ArrayList<>();
+    public List<Milestone> milestones = new ArrayList<>();
+    public MilestoneSettings milestoneSettings = new MilestoneSettings();
 
     public void setDefaults() {
         if (database == null) {
@@ -31,6 +33,12 @@ public class PlaytimeConfig {
         }
         if (rewards == null) {
             rewards = new ArrayList<>();
+        }
+        if (milestones == null) {
+            milestones = new ArrayList<>();
+        }
+        if (milestoneSettings == null) {
+            milestoneSettings = new MilestoneSettings();
         }
 
         if (command.topStyle == null) {
@@ -205,5 +213,16 @@ public class PlaytimeConfig {
         public String rankPrefix = "Rang : n°";
         public String timePrefix = "Temps : ";
         public String rankIfNone = "—";
+    }
+
+    public static class MilestoneSettings {
+        public boolean enabled = true;
+        public String tierBronzeMax = "10h";
+        public String tierSilverMax = "50h";
+        public String tierGoldMax = "100h";
+        public String broadcastBronze = "&8[&6✦ Bronze&8] &f%player% &7vient d'atteindre &e%time% &7de jeu !";
+        public String broadcastSilver = "&8[&7✦✦ Argent&8] &f%player% &7vient d'atteindre &f%time% &7de jeu !";
+        public String broadcastGold   = "&6✦✦✦ &f%player% &6a atteint &e%time% &6de jeu ! &6✦✦✦";
+        public String broadcastDiamond = "&b◆◆◆ &f%player% &ba atteint &3%time% &bde jeu ! &b◆◆◆";
     }
 }

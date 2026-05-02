@@ -71,4 +71,11 @@ public class SessionListener {
         long current = getCurrentSession(uuid);
         return history + current;
     }
+
+    public static void overrideSession(UUID uuid, long newHistoricalMillis) {
+        if (joinTimes.containsKey(uuid)) {
+            joinTimes.put(uuid, System.currentTimeMillis());
+            historicalCache.put(uuid, newHistoricalMillis);
+        }
+    }
 }

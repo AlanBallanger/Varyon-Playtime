@@ -141,6 +141,18 @@ public class PlaytimeService {
         return "";
     }
 
+    public void resetPlaytime(String uuid) {
+        db.resetSessions(uuid);
+    }
+
+    public void setPlaytime(String uuid, String username, long millis) {
+        db.resetSessions(uuid);
+        if (millis > 0) {
+            long now = System.currentTimeMillis();
+            saveSession(uuid, username, now - millis, millis);
+        }
+    }
+
     private String canonicalPeriod(String type) {
         try {
             String k = Playtime.get().getConfigManager().getConfig().resolvePeriodKey(type);
