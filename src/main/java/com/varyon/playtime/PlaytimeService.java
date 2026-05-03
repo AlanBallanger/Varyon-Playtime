@@ -141,6 +141,66 @@ public class PlaytimeService {
         return "";
     }
 
+    public long getFirstLogin(String uuid) {
+        long dbMin = 0L;
+        String query = "SELECT MIN(start_time) FROM playtime_sessions WHERE uuid = ?";
+        try (Connection conn = db.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, uuid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                long v = rs.getLong(1);
+                if (!rs.wasNull()) {
+                    dbMin = v;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        long onlineStart = 0L;
+        try {
+            onlineStart = SessionListener.getSessionJoinTime(UUID.fromString(uuid));
+        } catch (IllegalArgumentException ignored) {
+        }
+        if (onlineStart > 0L) {
+            if (dbMin <= 0L) {
+                return onlineStart;
+            }
+            return Math.min(dbMin, onlineStart);
+        }
+        return dbMin;
+    }
+
+    public long getLastLogin(String uuid) {
+        long dbMax = 0L;
+        String query = "SELECT MAX(start_time) FROM playtime_sessions WHERE uuid = ?";
+        try (Connection conn = db.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, uuid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                long v = rs.getLong(1);
+                if (!rs.wasNull()) {
+                    dbMax = v;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        long onlineStart = 0L;
+        try {
+            onlineStart = SessionListener.getSessionJoinTime(UUID.fromString(uuid));
+        } catch (IllegalArgumentException ignored) {
+        }
+        if (onlineStart > 0L) {
+            if (dbMax <= 0L) {
+                return onlineStart;
+            }
+            return Math.max(dbMax, onlineStart);
+        }
+        return dbMax;
+    }
+
     public void resetPlaytime(String uuid) {
         db.resetSessions(uuid);
     }

@@ -28,10 +28,31 @@ public class RewardManager {
 
     @SuppressWarnings("deprecation")
     public void checkRewards() {
+        PlaytimeConfig config = Playtime.get().getConfigManager().getConfig();
+        if (config.rewardSettings == null || !config.rewardSettings.autoGrant) {
+            return;
+        }
         List<PlayerRef> players = new ArrayList<>(Universe.get().getPlayers());
         for (PlayerRef player : players) {
             processPlayer(player);
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    public boolean tryManualClaim(PlayerRef player, Reward reward) {
+        if (player == null || reward == null) {
+            return false;
+        }
+        String uuid = player.getUuid().toString();
+        long playTime = PlaytimeAPI.get().getPlaytime(player.getUuid(), reward.period);
+        if (playTime < reward.timeRequirement) {
+            return false;
+        }
+        if (db.hasClaimedReward(uuid, reward)) {
+            return false;
+        }
+        giveReward(player, reward);
+        return true;
     }
 
     @SuppressWarnings("deprecation")

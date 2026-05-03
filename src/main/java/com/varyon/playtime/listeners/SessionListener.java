@@ -66,6 +66,10 @@ public class SessionListener {
         return System.currentTimeMillis() - joinTimes.get(uuid);
     }
 
+    public static long getSessionJoinTime(UUID uuid) {
+        return joinTimes.getOrDefault(uuid, 0L);
+    }
+
     public static long getLiveTotalTime(UUID uuid) {
         long history = historicalCache.getOrDefault(uuid, 0L);
         long current = getCurrentSession(uuid);

@@ -43,6 +43,9 @@
     "statusAvailable": "&e[DISPONIBLE]",
     "statusLocked": "&c[VERROUILLÉE]"
   },
+  "rewardSettings": {
+    "autoGrant": false
+  },
   "gui": {
     "title": "CLASSEMENT",
     "buttonAll": "TOTAL",

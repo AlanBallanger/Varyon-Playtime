@@ -38,7 +38,7 @@ tasks.named<ProcessResources>("processResources") {
     val replaceProperties = mapOf(
         "plugin_group" to findProperty("plugin_group"),
         "plugin_maven_group" to project.group,
-        "plugin_name" to project.name,
+        "plugin_name" to (findProperty("plugin_name") ?: project.name),
         "plugin_version" to project.version,
         "server_version" to findProperty("server_version"),
         "plugin_description" to findProperty("plugin_description"),

@@ -115,9 +115,19 @@ public class DatabaseManager {
     }
 
     public boolean hasClaimedReward(String uuid, Reward reward) {
+        if (reward == null || uuid == null || uuid.isBlank()) {
+            return false;
+        }
+        if (reward.id == null || reward.id.isBlank()) {
+            return false;
+        }
+        if (reward.period == null || reward.period.isBlank()) {
+            return false;
+        }
+
         String internal = Playtime.get().getConfigManager().getConfig().resolvePeriodKey(reward.period);
         if (internal == null) {
-            internal = reward.period;
+            internal = reward.period.trim();
         }
 
         String timeClause = "";
@@ -129,6 +139,8 @@ public class DatabaseManager {
                 timeClause = " AND claim_date >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
             } else if ("monthly".equalsIgnoreCase(internal)) {
                 timeClause = " AND claim_date >= DATE_SUB(NOW(), INTERVAL 1 MONTH)";
+            } else if ("all".equalsIgnoreCase(internal)) {
+                timeClause = "";
             }
         } else {
             if ("daily".equalsIgnoreCase(internal)) {
@@ -137,7 +149,14 @@ public class DatabaseManager {
                 timeClause = " AND date(claim_date) >= date('now', '-7 days')";
             } else if ("monthly".equalsIgnoreCase(internal)) {
                 timeClause = " AND date(claim_date) >= date('now', '-1 month')";
+            } else if ("all".equalsIgnoreCase(internal)) {
+                timeClause = "";
             }
+        }
+
+        if (timeClause.isEmpty() && !"all".equalsIgnoreCase(internal)) {
+            timeClause = isMySQL ? " AND DATE(claim_date) = CURDATE()" : " AND date(claim_date) = date('now')";
+            logger.warn("Période inconnue pour récompense {}, filtre journalier appliqué.", reward.id);
         }
 
         String query = "SELECT id FROM playtime_rewards_log WHERE uuid = ? AND reward_id = ?" + timeClause;
@@ -150,7 +169,7 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             logger.error("Erreur lors de la vérification d’une récompense", e);
-            return true;
+            return false;
         }
     }
 
@@ -167,13 +186,13 @@ public class DatabaseManager {
 
     public void resetSessions(String uuid) {
         String sqlSessions = "DELETE FROM playtime_sessions WHERE uuid = ?";
-        String sqlMilestones = "DELETE FROM playtime_rewards_log WHERE uuid = ? AND reward_id LIKE 'milestone_%'";
+        String sqlRewardsLog = "DELETE FROM playtime_rewards_log WHERE uuid = ?";
         try (Connection conn = getConnection()) {
             try (PreparedStatement ps = conn.prepareStatement(sqlSessions)) {
                 ps.setString(1, uuid);
                 ps.executeUpdate();
             }
-            try (PreparedStatement ps = conn.prepareStatement(sqlMilestones)) {
+            try (PreparedStatement ps = conn.prepareStatement(sqlRewardsLog)) {
                 ps.setString(1, uuid);
                 ps.executeUpdate();
             }
@@ -207,7 +226,7 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             logger.error("Erreur lors de la vérification d'un milestone", e);
-            return true;
+            return false;
         }
     }
 

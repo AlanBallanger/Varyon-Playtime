@@ -14,6 +14,7 @@ public class PlaytimeConfig {
     public List<Reward> rewards = new ArrayList<>();
     public List<Milestone> milestones = new ArrayList<>();
     public MilestoneSettings milestoneSettings = new MilestoneSettings();
+    public RewardSettings rewardSettings = new RewardSettings();
 
     public void setDefaults() {
         if (database == null) {
@@ -39,6 +40,9 @@ public class PlaytimeConfig {
         }
         if (milestoneSettings == null) {
             milestoneSettings = new MilestoneSettings();
+        }
+        if (rewardSettings == null) {
+            rewardSettings = new RewardSettings();
         }
 
         if (command.topStyle == null) {
@@ -213,6 +217,10 @@ public class PlaytimeConfig {
         public String rankPrefix = "Rang : n°";
         public String timePrefix = "Temps : ";
         public String rankIfNone = "—";
+    }
+
+    public static class RewardSettings {
+        public boolean autoGrant = false;
     }
 
     public static class MilestoneSettings {

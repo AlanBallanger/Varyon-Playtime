@@ -13,6 +13,8 @@ import com.varyon.playtime.listeners.SessionListener;
 import com.varyon.playtime.milestones.MilestoneManager;
 import com.varyon.playtime.rewards.RewardManager;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -41,10 +43,30 @@ public class Playtime extends JavaPlugin {
 
     @Override
     protected void setup() {
-        Path dataPath = getDataDirectory().getParent().resolve("Varyon_VaryonPlaytime").normalize();
+        Path parent = getDataDirectory().getParent().normalize();
+        Path dataPath = parent.resolve("Varyon_Varyon-Playtime").normalize();
+        Path legacyPath = parent.resolve("Varyon_VaryonPlaytime").normalize();
         File dataFolder = dataPath.toFile();
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
+        }
+
+        File newConfig = new File(dataFolder, "config.json");
+        if (!newConfig.isFile()) {
+            File legacyDir = legacyPath.toFile();
+            File oldConfig = new File(legacyDir, "config.json");
+            if (oldConfig.isFile()) {
+                try {
+                    Files.copy(oldConfig.toPath(), newConfig.toPath());
+                    File oldDb = new File(legacyDir, "playtime.db");
+                    if (oldDb.isFile()) {
+                        Files.copy(oldDb.toPath(), new File(dataFolder, "playtime.db").toPath());
+                    }
+                    logger.info("Données Playtime copiées de Varyon_VaryonPlaytime vers Varyon_Varyon-Playtime.");
+                } catch (IOException e) {
+                    logger.warn("Copie depuis Varyon_VaryonPlaytime impossible", e);
+                }
+            }
         }
 
         configManager = new ConfigManager(dataFolder);
